@@ -8,7 +8,7 @@ public class Tamagotchi {
     private int id;
     private String nombre;
     private int suciedad;
-    private int tiempoVida;
+    private long tiempoVida;
     private int velocidadComida;
     private boolean vivo;
     private boolean ocupado;
@@ -64,6 +64,22 @@ public class Tamagotchi {
 
     public void setOcupado(boolean ocupado) {
         this.ocupado = ocupado;
+    }
+
+    public int getTiempoVida() {
+        return tiempoVida;
+    }
+
+    public void setTiempoVida(int tiempoVida) {
+        this.tiempoVida = tiempoVida;
+    }
+
+    public int getVelocidadComida() {
+        return velocidadComida;
+    }
+
+    public void setVelocidadComida(int velocidadComida) {
+        this.velocidadComida = velocidadComida;
     }
 
 }
