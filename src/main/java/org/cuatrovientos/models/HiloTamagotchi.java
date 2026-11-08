@@ -7,6 +7,7 @@ public class HiloTamagotchi implements Runnable {
     private Tamagotchi tamagotchi;
     private static final Random rnd = new Random();
     private static final Scanner scan = new Scanner(System.in);
+    private long ultimoAumentoSuciedad = 0;
 
     public HiloTamagotchi(Tamagotchi tamagotchi) {
         this.tamagotchi = tamagotchi;
@@ -15,7 +16,6 @@ public class HiloTamagotchi implements Runnable {
     @Override
     public void run() {
         long nacimiento = System.currentTimeMillis();
-        long ultimoAumentoSuciedad = 0;
 
         try {
             System.out.println(tamagotchi.getNombre() + " se ha creado con exito.");
@@ -29,10 +29,10 @@ public class HiloTamagotchi implements Runnable {
                     gestionarInteracciones(interaccion);
                 }
 
-                long tiempoSuciedad = tiempoTranscurrido - ultimoAumentoSuciedad;
+                long tiempoSuciedad = tiempoTranscurrido - this.ultimoAumentoSuciedad;
                 if (tiempoSuciedad >= 20000) {
                     tamagotchi.aumentarSuciedad();
-                    ultimoAumentoSuciedad = tiempoTranscurrido;
+                    this.ultimoAumentoSuciedad = tiempoTranscurrido;
 
                     if (tamagotchi.getSuciedad() == 5) {
                         System.out.println(tamagotchi.getNombre() + ": Estoy muy sucio dame un baño.");

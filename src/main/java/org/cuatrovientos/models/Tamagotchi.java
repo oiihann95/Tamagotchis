@@ -68,11 +68,11 @@ public class Tamagotchi {
         this.vivo = vivo;
     }
 
-    public int getTiempoVida() {
+    public long getTiempoVida() {
         return tiempoVida;
     }
 
-    public void setTiempoVida(int tiempoVida) {
+    public void setTiempoVida(long tiempoVida) {
         this.tiempoVida = tiempoVida;
     }
 
@@ -98,6 +98,6 @@ public class Tamagotchi {
 
     @Override
     public String toString() {
-        return "ID: " + this.id + " Nombre: " + this.nombre + "Estado: " + this.vivo;
+        return "ID: " + this.id + " Nombre: " + this.nombre + " Estado: " + this.vivo;
     }
 }

@@ -112,6 +112,13 @@ public class App {
                 default:
                     break;
             }
+            if (respuesta != 0) {
+                try {
+                    Thread.sleep(100);
+                } catch (Exception e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
         } while (respuesta != 0);
 
     }
