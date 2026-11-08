@@ -1,7 +1,12 @@
 package org.cuatrovientos.models;
 
+import java.util.Random;
+import java.util.Scanner;
+
 public class HiloTamagotchi implements Runnable {
     private Tamagotchi tamagotchi;
+    private static final Random rnd = new Random();
+    private static final Scanner scan = new Scanner(System.in);
 
     public HiloTamagotchi(Tamagotchi tamagotchi) {
         this.tamagotchi = tamagotchi;
@@ -11,7 +16,7 @@ public class HiloTamagotchi implements Runnable {
     public void run() {
         long nacimiento = System.currentTimeMillis();
         long ultimoAumentoSuciedad = 0;
-        String interaccion;
+        Interacciones interaccion = tamagotchi.getInteraccion();
         try {
             System.out.println(tamagotchi.getNombre() + " se ha creado con exito.");
 
@@ -54,16 +59,69 @@ public class HiloTamagotchi implements Runnable {
         tamagotchi.setVivo(false);
     }
 
-    public void gestionarInteracciones(String interaccion) {
-        if (interaccion.equals("comer")) {
+    public void gestionarInteracciones(Interacciones interaccion) {
+        if (interaccion == Interacciones.COMER) {
             comer();
+        }
+        if(interaccion == Interacciones.JUGAR){
+            jugar()
+        }
+        if(interaccion == Interacciones.MATAR){
+            morir();
+        }
+        if(interaccion == Interacciones.LIMPIARSE){
+            limpiarse();
         }
     }
 
-    public void comer() {
+    public void comer() throws InterruptedException {
         System.out.println(tamagotchi.getNombre() + ": se esta comiendo una manzana.");
         Thread.sleep(tamagotchi.getVelocidadComida());
         System.out.println(tamagotchi.getNombre() + ": mmm que rica manzana");
+        tamagotchi.setInteraccion == Interacciones.NINGUNA;
     }
 
+    public void jugar() {
+        System.out.println("Has empezado a jugar con " + tamagotchi.getNombre());
+
+        int respuesta = 0;
+        boolean esCorrecto = true;
+
+        do {
+
+            int num1 = rnd.nextInt(5) + 1;
+            int num2 = rnd.nextInt(5) + 1;
+
+            System.out.print(num1 + " + " + num2 + " = ");
+
+            try {
+                respuesta = scan.nextInt();
+
+                if (respuesta == (num1 + num2)) {
+                    System.out.println("¡Correcto!");
+
+                } else {
+                    System.out.println("Incorrecto... ¡Has fallado!");
+                    esCorrecto = false;
+                }
+
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("Error: ¡Debes introducir un número entero!");
+                scan.next();
+                esCorrecto = false;
+            }
+
+        } while (!esCorrecto);
+
+        System.out.println("Fin del juego.");
+        tamagotchi.setInteraccion == Interacciones.NINGUNA;
+    }
+
+    public void limpiarse() throws InterruptedException {
+        System.out.println(tamagotchi.getNombre() + ": Se esta dando un baño.");
+        Thread.sleep(5000);
+        tamagotchi.setSuciedad(0);
+        System.out.println(tamagotchi.getNombre() + ": Esta limpio.");
+        tamagotchi.setInteraccion == Interacciones.NINGUNA;
+    }
 }
