@@ -82,4 +82,7 @@ public class Tamagotchi {
         this.velocidadComida = velocidadComida;
     }
 
+    public void aumentarSuciedad() {
+        this.suciedad++;
+    }
 }
