@@ -11,6 +11,7 @@ public class Tamagotchi {
     private long tiempoVida;
     private int velocidadComida;
     private boolean vivo;
+    private boolean ocupado;
     private Interacciones interaccion;
 
     public Tamagotchi() {
@@ -23,6 +24,7 @@ public class Tamagotchi {
         this.tiempoVida = 300000;
         this.velocidadComida = rnd.nextInt(10000, 80000);
         this.vivo = true;
+        this.ocupado = false;
         this.interaccion = Interacciones.NINGUNA;
     }
 
@@ -44,6 +46,14 @@ public class Tamagotchi {
 
     public int getSuciedad() {
         return suciedad;
+    }
+
+    public boolean isOcupado() {
+        return ocupado;
+    }
+
+    public void setOcupado(boolean ocupado) {
+        this.ocupado = ocupado;
     }
 
     public void setSuciedad(int suciedad) {
@@ -86,4 +96,8 @@ public class Tamagotchi {
         this.suciedad++;
     }
 
+    @Override
+    public String toString() {
+        return "ID: " + this.id + " Nombre: " + this.nombre + "Estado: " + this.vivo;
+    }
 }

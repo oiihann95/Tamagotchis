@@ -16,7 +16,7 @@ public class HiloTamagotchi implements Runnable {
     public void run() {
         long nacimiento = System.currentTimeMillis();
         long ultimoAumentoSuciedad = 0;
-        Interacciones interaccion = tamagotchi.getInteraccion();
+
         try {
             System.out.println(tamagotchi.getNombre() + " se ha creado con exito.");
 
@@ -24,10 +24,12 @@ public class HiloTamagotchi implements Runnable {
                 long tiempoActual = System.currentTimeMillis();
                 long tiempoTranscurrido = tiempoActual - nacimiento;
 
-                long tiempoSuciedad = tiempoTranscurrido - ultimoAumentoSuciedad;
-                if (tamagotchi.isOcupado() == false) {
+                Interacciones interaccion = tamagotchi.getInteraccion();
+                if (interaccion != Interacciones.NINGUNA) {
                     gestionarInteracciones(interaccion);
                 }
+
+                long tiempoSuciedad = tiempoTranscurrido - ultimoAumentoSuciedad;
                 if (tiempoSuciedad >= 20000) {
                     tamagotchi.aumentarSuciedad();
                     ultimoAumentoSuciedad = tiempoTranscurrido;
@@ -59,29 +61,32 @@ public class HiloTamagotchi implements Runnable {
         tamagotchi.setVivo(false);
     }
 
-    public void gestionarInteracciones(Interacciones interaccion) {
+    public void gestionarInteracciones(Interacciones interaccion) throws InterruptedException {
         if (interaccion == Interacciones.COMER) {
             comer();
         }
-        if(interaccion == Interacciones.JUGAR){
-            jugar()
+        if (interaccion == Interacciones.JUGAR) {
+            jugar();
         }
-        if(interaccion == Interacciones.MATAR){
+        if (interaccion == Interacciones.MATAR) {
             morir();
         }
-        if(interaccion == Interacciones.LIMPIARSE){
+        if (interaccion == Interacciones.LIMPIARSE) {
             limpiarse();
         }
     }
 
     public void comer() throws InterruptedException {
+        tamagotchi.setOcupado(true);
         System.out.println(tamagotchi.getNombre() + ": se esta comiendo una manzana.");
         Thread.sleep(tamagotchi.getVelocidadComida());
         System.out.println(tamagotchi.getNombre() + ": mmm que rica manzana");
-        tamagotchi.setInteraccion == Interacciones.NINGUNA;
+        tamagotchi.setInteraccion(Interacciones.NINGUNA);
+        tamagotchi.setOcupado(false);
     }
 
     public void jugar() {
+        tamagotchi.setOcupado(true);
         System.out.println("Has empezado a jugar con " + tamagotchi.getNombre());
 
         int respuesta = 0;
@@ -99,7 +104,7 @@ public class HiloTamagotchi implements Runnable {
 
                 if (respuesta == (num1 + num2)) {
                     System.out.println("¡Correcto!");
-
+                    esCorrecto = true;
                 } else {
                     System.out.println("Incorrecto... ¡Has fallado!");
                     esCorrecto = false;
@@ -114,14 +119,18 @@ public class HiloTamagotchi implements Runnable {
         } while (!esCorrecto);
 
         System.out.println("Fin del juego.");
-        tamagotchi.setInteraccion == Interacciones.NINGUNA;
+        tamagotchi.setInteraccion(Interacciones.NINGUNA);
+        tamagotchi.setOcupado(false);
     }
 
     public void limpiarse() throws InterruptedException {
+        tamagotchi.setOcupado(true);
         System.out.println(tamagotchi.getNombre() + ": Se esta dando un baño.");
         Thread.sleep(5000);
         tamagotchi.setSuciedad(0);
+        ultimoAumentoSuciedad = 0;
         System.out.println(tamagotchi.getNombre() + ": Esta limpio.");
-        tamagotchi.setInteraccion == Interacciones.NINGUNA;
+        tamagotchi.setInteraccion(Interacciones.NINGUNA);
+        tamagotchi.setOcupado(false);
     }
 }
